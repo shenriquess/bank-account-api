@@ -232,7 +232,29 @@ class OperacaoController extends Controller
     {
         if($operacao->moeda == '1' && is_numeric($operacao->valor)){
             return $this->saqueAUD($operacao, $conta);       
-        } 
+        }elseif ($operacao->moeda == '2' && is_numeric($operacao->valor)) {
+            return $this->saqueCAD($operacao, $conta);       
+        }elseif ($operacao->moeda == '3' && is_numeric($operacao->valor)) {
+            return $this->saqueCHF($operacao, $conta);
+        }elseif ($operacao->moeda == '4' && is_numeric($operacao->valor)) {
+            return $this->saqueDDK($operacao, $conta);
+        }elseif ($operacao->moeda == '5' && is_numeric($operacao->valor)) {
+            return $this->saqueEUR($operacao, $conta);
+        }elseif ($operacao->moeda == '6' && is_numeric($operacao->valor)) {
+            return $this->saqueGBP($operacao, $conta);
+        }elseif ($operacao->moeda == '7' && is_numeric($operacao->valor)) {
+            return $this->saqueJPY($operacao, $conta);
+        }elseif ($operacao->moeda == '8' && is_numeric($operacao->valor)) {
+            return $this->saqueNOK($operacao, $conta);
+        }elseif ($operacao->moeda == '9' && is_numeric($operacao->valor)) {
+            return $this->saqueSEK($operacao, $conta);
+        }elseif ($operacao->moeda == '10' && is_numeric($operacao->valor)) {
+            return $this->saqueUSD($operacao, $conta);
+        }elseif ($operacao->moeda == '11' && is_numeric($operacao->valor)) {
+            return $this->saqueBRL($operacao, $conta);
+        }else{
+            return FALSE;
+        }
 
     }
 
@@ -240,6 +262,7 @@ class OperacaoController extends Controller
     {
         if($operacao->valor <= $conta->AUD){
             $conta->AUD -= $operacao->valor;
+            return TRUE;
         }else{
 
             if($conta->CAD > 0){
@@ -341,5 +364,1054 @@ class OperacaoController extends Controller
 
     }
 
+    public function saqueCAD(Operacao $operacao, Conta $conta)
+    {
+        if($operacao->valor <= $conta->CAD){
+            $conta->CAD -= $operacao->valor;
+            return TRUE;
+        }else{
+
+            if($conta->AUD > 0){
+                $cotacao_aud = $this->exibirCotacao(1); 
+                $cotacao_cad = $this->exibirCotacao(2);
+                $aux = ($conta->AUD * $cotacao_aud['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->AUD =  ($aux * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_aud['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->CHF > 0) {
+                $cotacao_cad = $this->exibirCotacao(2); 
+                $cotacao_chf = $this->exibirCotacao(3);
+                $aux = ($conta->CHF * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CHF =  ($aux * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->DDK > 0) {
+                $cotacao_cad = $this->exibirCotacao(2); 
+                $cotacao_ddk = $this->exibirCotacao(4);
+                $aux = ($conta->DDK * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->DDK =  ($aux * $cotacao_acad['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            
+            }elseif ($conta->EUR > 0) {
+                $cotacao_cad = $this->exibirCotacao(2); 
+                $cotacao_eur = $this->exibirCotacao(5);
+                $aux = ($conta->EUR * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->EUR =  ($aux * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->GBP > 0) {
+                $cotacao_cad = $this->exibirCotacao(2); 
+                $cotacao_gbp = $this->exibirCotacao(6);
+                $aux = ($conta->GBP * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->GBP =  ($aux * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->JPY > 0) {
+                $cotacao_cad = $this->exibirCotacao(2); 
+                $cotacao_jpy = $this->exibirCotacao(7);
+                $aux = ($conta->JPY * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->JPY =  ($aux * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->NOK > 0) {
+                $cotacao_cad = $this->exibirCotacao(2); 
+                $cotacao_nok = $this->exibirCotacao(8);
+                $aux = ($conta->NOK * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->NOK =  ($aux * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->SEK > 0) {
+                $cotacao_cad = $this->exibirCotacao(2); 
+                $cotacao_sek = $this->exibirCotacao(9);
+                $aux = ($conta->SEK * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->SEK =  ($aux * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->USD > 0) {
+                $cotacao_cad = $this->exibirCotacao(2); 
+                $cotacao_usd = $this->exibirCotacao(10);
+                $aux = ($conta->USD * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->USD =  ($aux * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            } elseif ($conta->BRL > 0) {
+                $cotacao_cad = $this->exibirCotacao(2); 
+                $aux = ($conta->BRL / $cotacao_cad['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->BRL =  ($aux *  $cotacao_cad['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }else {
+                return FALSE;
+            }
+                
+        }
+
+    }
+
+    public function saqueCHF(Operacao $operacao, Conta $conta)
+    {
+        if($operacao->valor <= $conta->CHF){
+            $conta->CHF -= $operacao->valor;
+            return TRUE;
+        }else{
+
+            if($conta->CAD > 0){
+                $cotacao_chd = $this->exibirCotacao(3); 
+                $cotacao_cad = $this->exibirCotacao(2);
+                $aux = ($conta->CAD * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CAD =  ($aux * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->AUD > 0) {
+                $cotacao_aud = $this->exibirCotacao(1); 
+                $cotacao_chf = $this->exibirCotacao(3);
+                $aux = ($conta->AUD * $cotacao_aud['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->AUD =  ($aux * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_aud['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->DDK > 0) {
+                $cotacao_chf = $this->exibirCotacao(3); 
+                $cotacao_ddk = $this->exibirCotacao(4);
+                $aux = ($conta->DDK * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->DDK =  ($aux * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            
+            }elseif ($conta->EUR > 0) {
+                $cotacao_chf = $this->exibirCotacao(3); 
+                $cotacao_eur = $this->exibirCotacao(5);
+                $aux = ($conta->EUR * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->EUR =  ($aux * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->GBP > 0) {
+                $cotacao_chf = $this->exibirCotacao(3); 
+                $cotacao_gbp = $this->exibirCotacao(6);
+                $aux = ($conta->GBP * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->GBP =  ($aux * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->JPY > 0) {
+                $cotacao_chf = $this->exibirCotacao(3); 
+                $cotacao_jpy = $this->exibirCotacao(7);
+                $aux = ($conta->JPY * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->JPY =  ($aux * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->NOK > 0) {
+                $cotacao_chf = $this->exibirCotacao(3); 
+                $cotacao_nok = $this->exibirCotacao(8);
+                $aux = ($conta->NOK * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->NOK =  ($aux * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->SEK > 0) {
+                $cotacao_chf = $this->exibirCotacao(3); 
+                $cotacao_sek = $this->exibirCotacao(9);
+                $aux = ($conta->SEK * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->SEK =  ($aux * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->USD > 0) {
+                $cotacao_chf = $this->exibirCotacao(3); 
+                $cotacao_usd = $this->exibirCotacao(10);
+                $aux = ($conta->USD * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->USD =  ($aux * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            } elseif ($conta->BRL > 0) {
+                $cotacao_chf = $this->exibirCotacao(3); 
+                $aux = ($conta->BRL / $cotacao_chf['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->BRL =  ($aux *  $cotacao_chf['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }else {
+                return FALSE;
+            }
+            
+            
+        }
+
+    }
+
+    public function saqueDDK(Operacao $operacao, Conta $conta)
+    {
+        if($operacao->valor <= $conta->DDK){
+            $conta->DDK -= $operacao->valor;
+            return TRUE;
+        }else{
+
+            if($conta->CAD > 0){
+                $cotacao_DDK = $this->exibirCotacao(4); 
+                $cotacao_cad = $this->exibirCotacao(2);
+                $aux = ($conta->CAD * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CAD =  ($aux * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->CHF > 0) {
+                $cotacao_ddk = $this->exibirCotacao(4); 
+                $cotacao_chf = $this->exibirCotacao(3);
+                $aux = ($conta->CHF * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CHF =  ($aux * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->AUD > 0) {
+                $cotacao_aud = $this->exibirCotacao(1); 
+                $cotacao_ddk = $this->exibirCotacao(4);
+                $aux = ($conta->AUD * $cotacao_aud['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->AUD =  ($aux * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_aud['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            
+            }elseif ($conta->EUR > 0) {
+                $cotacao_ddk = $this->exibirCotacao(4); 
+                $cotacao_eur = $this->exibirCotacao(5);
+                $aux = ($conta->EUR * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->EUR =  ($aux * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->GBP > 0) {
+                $cotacao_ddk = $this->exibirCotacao(4); 
+                $cotacao_gbp = $this->exibirCotacao(6);
+                $aux = ($conta->GBP * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->GBP =  ($aux * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->JPY > 0) {
+                $cotacao_ddk = $this->exibirCotacao(4); 
+                $cotacao_jpy = $this->exibirCotacao(7);
+                $aux = ($conta->JPY * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->JPY =  ($aux * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->NOK > 0) {
+                $cotacao_ddk = $this->exibirCotacao(4); 
+                $cotacao_nok = $this->exibirCotacao(8);
+                $aux = ($conta->NOK * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->NOK =  ($aux * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->SEK > 0) {
+                $cotacao_ddk = $this->exibirCotacao(4); 
+                $cotacao_sek = $this->exibirCotacao(9);
+                $aux = ($conta->SEK * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->SEK =  ($aux * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->USD > 0) {
+                $cotacao_ddk = $this->exibirCotacao(4); 
+                $cotacao_usd = $this->exibirCotacao(10);
+                $aux = ($conta->USD * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->USD =  ($aux * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            } elseif ($conta->BRL > 0) {
+                $cotacao_ddk = $this->exibirCotacao(4); 
+                $aux = ($conta->BRL / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->BRL =  ($aux *  $cotacao_ddk['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }else {
+                return FALSE;
+            }
+            
+            
+        }
+
+    }
+
+    public function saqueEUR(Operacao $operacao, Conta $conta)
+    {
+        if($operacao->valor <= $conta->EUR){
+            $conta->EUR -= $operacao->valor;
+            return TRUE;
+        }else{
+
+            if($conta->CAD > 0){
+                $cotacao_eur = $this->exibirCotacao(5); 
+                $cotacao_cad = $this->exibirCotacao(2);
+                $aux = ($conta->CAD * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CAD =  ($aux * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->CHF > 0) {
+                $cotacao_eur = $this->exibirCotacao(5); 
+                $cotacao_chf = $this->exibirCotacao(3);
+                $aux = ($conta->CHF * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CHF =  ($aux * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->DDK > 0) {
+                $cotacao_eur = $this->exibirCotacao(5); 
+                $cotacao_ddk = $this->exibirCotacao(4);
+                $aux = ($conta->DDK * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->DDK =  ($aux * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            
+            }elseif ($conta->AUD > 0) {
+                $cotacao_aud = $this->exibirCotacao(1); 
+                $cotacao_eur = $this->exibirCotacao(5);
+                $aux = ($conta->AUD * $cotacao_aud['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->AUD =  ($aux * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_aud['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->GBP > 0) {
+                $cotacao_eur = $this->exibirCotacao(5); 
+                $cotacao_gbp = $this->exibirCotacao(6);
+                $aux = ($conta->GBP * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->GBP =  ($aux * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->JPY > 0) {
+                $cotacao_eur = $this->exibirCotacao(5); 
+                $cotacao_jpy = $this->exibirCotacao(7);
+                $aux = ($conta->JPY * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->JPY =  ($aux * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->NOK > 0) {
+                $cotacao_eur = $this->exibirCotacao(5); 
+                $cotacao_nok = $this->exibirCotacao(8);
+                $aux = ($conta->NOK * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->NOK =  ($aux * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->SEK > 0) {
+                $cotacao_eur = $this->exibirCotacao(5); 
+                $cotacao_sek = $this->exibirCotacao(9);
+                $aux = ($conta->SEK * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->SEK =  ($aux * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->USD > 0) {
+                $cotacao_eur = $this->exibirCotacao(5); 
+                $cotacao_usd = $this->exibirCotacao(10);
+                $aux = ($conta->USD * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->USD =  ($aux * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            } elseif ($conta->BRL > 0) {
+                $cotacao_eur = $this->exibirCotacao(1); 
+                $aux = ($conta->BRL / $cotacao_eur['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->BRL =  ($aux *  $cotacao_eur['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }else {
+                return FALSE;
+            }
+            
+            
+        }
+
+    }
+
+    public function saqueGBP(Operacao $operacao, Conta $conta)
+    {
+        if($operacao->valor <= $conta->GBP){
+            $conta->GBP -= $operacao->valor;
+            return TRUE;
+        }else{
+
+            if($conta->CAD > 0){
+                $cotacao_gbp = $this->exibirCotacao(6); 
+                $cotacao_cad = $this->exibirCotacao(2);
+                $aux = ($conta->CAD * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CAD =  ($aux * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->CHF > 0) {
+                $cotacao_gbp = $this->exibirCotacao(6); 
+                $cotacao_chf = $this->exibirCotacao(3);
+                $aux = ($conta->CHF * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CHF =  ($aux * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->DDK > 0) {
+                $cotacao_gbp = $this->exibirCotacao(6); 
+                $cotacao_ddk = $this->exibirCotacao(4);
+                $aux = ($conta->DDK * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->DDK =  ($aux * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            
+            }elseif ($conta->EUR > 0) {
+                $cotacao_gbp = $this->exibirCotacao(6); 
+                $cotacao_eur = $this->exibirCotacao(5);
+                $aux = ($conta->EUR * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->EUR =  ($aux * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->AUD > 0) {
+                $cotacao_aud = $this->exibirCotacao(1); 
+                $cotacao_gbp = $this->exibirCotacao(6);
+                $aux = ($conta->AUD * $cotacao_aud['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->AUD =  ($aux * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_aud['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->JPY > 0) {
+                $cotacao_gbp = $this->exibirCotacao(6); 
+                $cotacao_jpy = $this->exibirCotacao(7);
+                $aux = ($conta->JPY * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->JPY =  ($aux * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->NOK > 0) {
+                $cotacao_gbp = $this->exibirCotacao(6); 
+                $cotacao_nok = $this->exibirCotacao(8);
+                $aux = ($conta->NOK * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->NOK =  ($aux * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->SEK > 0) {
+                $cotacao_gbp = $this->exibirCotacao(6); 
+                $cotacao_sek = $this->exibirCotacao(9);
+                $aux = ($conta->SEK * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->SEK =  ($aux * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->USD > 0) {
+                $cotacao_gbp = $this->exibirCotacao(6); 
+                $cotacao_usd = $this->exibirCotacao(10);
+                $aux = ($conta->USD * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->USD =  ($aux * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            } elseif ($conta->BRL > 0) {
+                $cotacao_gbp = $this->exibirCotacao(6); 
+                $aux = ($conta->BRL / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->BRL =  ($aux *  $cotacao_gbp['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }else {
+                return FALSE;
+            }
+            
+            
+        }
+
+    }
+
+    public function saqueJPY(Operacao $operacao, Conta $conta)
+    {
+        if($operacao->valor <= $conta->JPY){
+            $conta->JPY -= $operacao->valor;
+            return TRUE;
+        }else{
+
+            if($conta->CAD > 0){
+                $cotacao_jpy = $this->exibirCotacao(7); 
+                $cotacao_cad = $this->exibirCotacao(2);
+                $aux = ($conta->CAD * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CAD =  ($aux * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->CHF > 0) {
+                $cotacao_jpy = $this->exibirCotacao(7); 
+                $cotacao_chf = $this->exibirCotacao(3);
+                $aux = ($conta->CHF * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CHF =  ($aux * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->DDK > 0) {
+                $cotacao_jpy = $this->exibirCotacao(7); 
+                $cotacao_ddk = $this->exibirCotacao(4);
+                $aux = ($conta->DDK * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->DDK =  ($aux * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            
+            }elseif ($conta->EUR > 0) {
+                $cotacao_jpy = $this->exibirCotacao(7); 
+                $cotacao_eur = $this->exibirCotacao(5);
+                $aux = ($conta->EUR * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->EUR =  ($aux * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->GBP > 0) {
+                $cotacao_jpy = $this->exibirCotacao(7); 
+                $cotacao_gbp = $this->exibirCotacao(6);
+                $aux = ($conta->GBP * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->GBP =  ($aux * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->AUD > 0) {
+                $cotacao_aud = $this->exibirCotacao(1); 
+                $cotacao_jpy = $this->exibirCotacao(7);
+                $aux = ($conta->AUD * $cotacao_aud['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->AUD =  ($aux * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_aud['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->NOK > 0) {
+                $cotacao_jpy = $this->exibirCotacao(7); 
+                $cotacao_nok = $this->exibirCotacao(8);
+                $aux = ($conta->NOK * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->NOK =  ($aux * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->SEK > 0) {
+                $cotacao_jpy = $this->exibirCotacao(7); 
+                $cotacao_sek = $this->exibirCotacao(9);
+                $aux = ($conta->SEK * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->SEK =  ($aux * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->USD > 0) {
+                $cotacao_jpy = $this->exibirCotacao(7); 
+                $cotacao_usd = $this->exibirCotacao(10);
+                $aux = ($conta->USD * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->USD =  ($aux * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            } elseif ($conta->BRL > 0) {
+                $cotacao_jpy = $this->exibirCotacao(7); 
+                $aux = ($conta->BRL / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->BRL =  ($aux *  $cotacao_jpy['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }else {
+                return FALSE;
+            }
+            
+            
+        }
+
+    }
+
+    public function saqueNOK(Operacao $operacao, Conta $conta)
+    {
+        if($operacao->valor <= $conta->NOK){
+            $conta->NOK -= $operacao->valor;
+            return TRUE;
+        }else{
+
+            if($conta->CAD > 0){
+                $cotacao_nok = $this->exibirCotacao(8); 
+                $cotacao_cad = $this->exibirCotacao(2);
+                $aux = ($conta->CAD * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CAD =  ($aux * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->CHF > 0) {
+                $cotacao_nok = $this->exibirCotacao(8); 
+                $cotacao_chf = $this->exibirCotacao(3);
+                $aux = ($conta->CHF * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CHF =  ($aux * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->DDK > 0) {
+                $cotacao_nok = $this->exibirCotacao(8); 
+                $cotacao_ddk = $this->exibirCotacao(4);
+                $aux = ($conta->DDK * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->DDK =  ($aux * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            
+            }elseif ($conta->EUR > 0) {
+                $cotacao_nok = $this->exibirCotacao(8); 
+                $cotacao_eur = $this->exibirCotacao(5);
+                $aux = ($conta->EUR * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->EUR =  ($aux * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->GBP > 0) {
+                $cotacao_nok = $this->exibirCotacao(8); 
+                $cotacao_gbp = $this->exibirCotacao(6);
+                $aux = ($conta->GBP * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->GBP =  ($aux * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->JPY > 0) {
+                $cotacao_nok = $this->exibirCotacao(8); 
+                $cotacao_jpy = $this->exibirCotacao(7);
+                $aux = ($conta->JPY * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->JPY =  ($aux * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->AUD > 0) {
+                $cotacao_aud = $this->exibirCotacao(1); 
+                $cotacao_nok = $this->exibirCotacao(8);
+                $aux = ($conta->AUD * $cotacao_aud['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->AUD =  ($aux * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_aud['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->SEK > 0) {
+                $cotacao_nok = $this->exibirCotacao(8); 
+                $cotacao_sek = $this->exibirCotacao(9);
+                $aux = ($conta->SEK * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->SEK =  ($aux * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->USD > 0) {
+                $cotacao_nok = $this->exibirCotacao(8); 
+                $cotacao_usd = $this->exibirCotacao(10);
+                $aux = ($conta->USD * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->USD =  ($aux * $cotacao_aud['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            } elseif ($conta->BRL > 0) {
+                $cotacao_nok = $this->exibirCotacao(8); 
+                $aux = ($conta->BRL / $cotacao_nok['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->BRL =  ($aux *  $cotacao_nok['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }else {
+                return FALSE;
+            }
+            
+            
+        }
+
+    }
+
+    public function saqueSEK(Operacao $operacao, Conta $conta)
+    {
+        if($operacao->valor <= $conta->SEK){
+            $conta->SEK -= $operacao->valor;
+            return TRUE;
+        }else{
+
+            if($conta->CAD > 0){
+                $cotacao_sek = $this->exibirCotacao(9); 
+                $cotacao_cad = $this->exibirCotacao(2);
+                $aux = ($conta->CAD * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CAD =  ($aux * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->CHF > 0) {
+                $cotacao_sek = $this->exibirCotacao(9); 
+                $cotacao_chf = $this->exibirCotacao(3);
+                $aux = ($conta->CHF * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CHF =  ($aux * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->DDK > 0) {
+                $cotacao_sek = $this->exibirCotacao(9); 
+                $cotacao_ddk = $this->exibirCotacao(4);
+                $aux = ($conta->DDK * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->DDK =  ($aux * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            
+            }elseif ($conta->EUR > 0) {
+                $cotacao_sek = $this->exibirCotacao(9); 
+                $cotacao_eur = $this->exibirCotacao(5);
+                $aux = ($conta->EUR * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->EUR =  ($aux * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->GBP > 0) {
+                $cotacao_sek = $this->exibirCotacao(9); 
+                $cotacao_gbp = $this->exibirCotacao(6);
+                $aux = ($conta->GBP * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->GBP =  ($aux * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->JPY > 0) {
+                $cotacao_sek = $this->exibirCotacao(9); 
+                $cotacao_jpy = $this->exibirCotacao(7);
+                $aux = ($conta->JPY * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->JPY =  ($aux * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->NOK > 0) {
+                $cotacao_sek = $this->exibirCotacao(9); 
+                $cotacao_nok = $this->exibirCotacao(8);
+                $aux = ($conta->NOK * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->NOK =  ($aux * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->AUD > 0) {
+                $cotacao_aud = $this->exibirCotacao(1); 
+                $cotacao_sek = $this->exibirCotacao(9);
+                $aux = ($conta->AUD * $cotacao_aud['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->AUD =  ($aux * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_aud['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->USD > 0) {
+                $cotacao_sek = $this->exibirCotacao(9); 
+                $cotacao_usd = $this->exibirCotacao(10);
+                $aux = ($conta->USD * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->USD =  ($aux * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            } elseif ($conta->BRL > 0) {
+                $cotacao_sek = $this->exibirCotacao(9); 
+                $aux = ($conta->BRL / $cotacao_sek['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->BRL =  ($aux *  $cotacao_sek['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }else {
+                return FALSE;
+            }
+            
+            
+        }
+
+    }
+
+    public function saqueUSD(Operacao $operacao, Conta $conta)
+    {
+        if($operacao->valor <= $conta->USD){
+            $conta->USD -= $operacao->valor;
+            return TRUE;
+        }else{
+
+            if($conta->CAD > 0){
+                $cotacao_usd = $this->exibirCotacao(10); 
+                $cotacao_cad = $this->exibirCotacao(2);
+                $aux = ($conta->CAD * $cotacao_cad['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CAD =  ($aux * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_cad['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->CHF > 0) {
+                $cotacao_usd = $this->exibirCotacao(10); 
+                $cotacao_chf = $this->exibirCotacao(3);
+                $aux = ($conta->CHF * $cotacao_chf['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CHF =  ($aux * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_chf['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->DDK > 0) {
+                $cotacao_usd = $this->exibirCotacao(10); 
+                $cotacao_ddk = $this->exibirCotacao(4);
+                $aux = ($conta->DDK * $cotacao_ddk['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->DDK =  ($aux * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            
+            }elseif ($conta->EUR > 0) {
+                $cotacao_usd = $this->exibirCotacao(10); 
+                $cotacao_eur = $this->exibirCotacao(5);
+                $aux = ($conta->EUR * $cotacao_eur['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->EUR =  ($aux * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_eur['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->GBP > 0) {
+                $cotacao_usd = $this->exibirCotacao(10); 
+                $cotacao_gbp = $this->exibirCotacao(6);
+                $aux = ($conta->GBP * $cotacao_gbp['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->GBP =  ($aux * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->JPY > 0) {
+                $cotacao_usd = $this->exibirCotacao(10); 
+                $cotacao_jpy = $this->exibirCotacao(7);
+                $aux = ($conta->JPY * $cotacao_jpy['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->JPY =  ($aux * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->NOK > 0) {
+                $cotacao_usd = $this->exibirCotacao(10); 
+                $cotacao_nok = $this->exibirCotacao(8);
+                $aux = ($conta->NOK * $cotacao_nok['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->NOK =  ($aux * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_nok['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->SEK > 0) {
+                $cotacao_usd = $this->exibirCotacao(10); 
+                $cotacao_sek = $this->exibirCotacao(9);
+                $aux = ($conta->SEK * $cotacao_sek['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->SEK =  ($aux * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_sek['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->AUD > 0) {
+                $cotacao_aud = $this->exibirCotacao(1); 
+                $cotacao_usd = $this->exibirCotacao(10);
+                $aux = ($conta->AUD * $cotacao_aud['value'][4]['cotacaoCompra'] / $cotacao_usd['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->AUD =  ($aux * $cotacao_usd['value'][4]['cotacaoCompra'] / $cotacao_aud['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            } elseif ($conta->BRL > 0) {
+                $cotacao_usd = $this->exibirCotacao(10); 
+                $aux = ($conta->BRL / $cotacao_usd['value'][4]['cotacaoVenda']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->BRL =  ($aux *  $cotacao_usd['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }else {
+                return FALSE;
+            }
+            
+            
+        }
+
+    }
+
+    public function saqueBRL(Operacao $operacao, Conta $conta)
+    {
+        if($operacao->valor <= $conta->BRL){
+            $conta->BRL -= $operacao->valor;
+            return TRUE;
+        }else{
+
+            if($conta->CAD > 0){
+                $cotacao_cad = $this->exibirCotacao(2);
+                $aux = ($conta->CAD * $cotacao_cad['value'][4]['cotacaoCompra']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CAD =  ($aux / $cotacao_cad['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->CHF > 0) {
+                $cotacao_chf = $this->exibirCotacao(3);
+                $aux = ($conta->CHF * $cotacao_chf['value'][4]['cotacaoCompra']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->CHF =  ($aux / $cotacao_chf['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->AUD > 0) {
+                $cotacao_aud = $this->exibirCotacao(1);
+                $aux = ($conta->AUD * $cotacao_aud['value'][4]['cotacaoCompra']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->AUD =  ($aux / $cotacao_aud['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->DDK > 0) {
+                $cotacao_ddk = $this->exibirCotacao(4);
+                $aux = ($conta->DDK * $cotacao_ddk['value'][4]['cotacaoCompra']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->DDK =  ($aux / $cotacao_ddk['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            
+            }elseif ($conta->EUR > 0) {
+                $cotacao_eur = $this->exibirCotacao(5);
+                $aux = ($conta->EUR * $cotacao_eur['value'][4]['cotacaoCompra']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->EUR =  ($aux / $cotacao_eur['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->GBP > 0) {
+                $cotacao_gbp = $this->exibirCotacao(6);
+                $aux = ($conta->GBP * $cotacao_gbp['value'][4]['cotacaoCompra']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->GBP =  ($aux / $cotacao_gbp['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->JPY > 0) {
+                $cotacao_jpy = $this->exibirCotacao(7);
+                $aux = ($conta->JPY * $cotacao_jpy['value'][4]['cotacaoCompra']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->JPY =  ($aux / $cotacao_jpy['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->NOK > 0) {
+                $cotacao_nok = $this->exibirCotacao(8);
+                $aux = ($conta->NOK * $cotacao_nok['value'][4]['cotacaoCompra']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->NOK =  ($aux / $cotacao_nok['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->SEK > 0) {
+                $cotacao_sek = $this->exibirCotacao(9);
+                $aux = ($conta->SEK * $cotacao_sek['value'][4]['cotacaoCompra']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->SEK =  ($aux / $cotacao_sek['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }elseif ($conta->USD > 0) {
+                $cotacao_usd = $this->exibirCotacao(10);
+                $aux = ($conta->USD * $cotacao_usd['value'][4]['cotacaoCompra']);
+                if($operacao->valor <= $aux){
+                    $aux -= $operacao->valor;
+                    $conta->USD =  ($aux / $cotacao_usd['value'][4]['cotacaoVenda']);
+                    return TRUE;
+                }
+            }else {
+                return FALSE;
+            }
+            
+            
+        }
+
+    }
 }
 
