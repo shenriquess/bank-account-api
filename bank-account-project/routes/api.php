@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContaController;
+use App\Http\Controllers\OperacaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,12 @@ Route::get('conta/{id}', [ContaController::class, 'show']);
 // Cria nova conta
 Route::post('conta', [ContaController::class, 'store']);
 
+// Cria nova operação
+Route::post('operacao', [OperacaoController::class, 'store']);
+
+// Lista todas as operações de uma conta
+Route::get('operacoes/{id_conta}', [OperacaoController::class, 'show']);
+
+//Route::post('deposito/{id_conta}', [OperacaoController::class, 'update']);
+
+Route::get('cotacao/{moeda}', [OperacaoController::class, 'exibirCotacao']);

@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Operacao extends Model
 {
-    use HasFactory;
+    protected $table = 'operacoes';
+
+    protected $fillable = ['id_conta', 'tipo', 'moeda', 'valor', 'created_at', 'updated_at'];
+
+    function contas() {
+        return $this->belongsTo(Conta::class);
+    }
 }

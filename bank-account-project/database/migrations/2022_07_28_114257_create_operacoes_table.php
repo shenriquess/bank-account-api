@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('operacoes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_conta')->unsigned();
-            $table->integer('tipo');  //(1) Saque - (2) Depósito
+            $table->integer('tipo');  //(1) Depósito - (2) Saque
             $table->integer('moeda'); //(1) AUD - (2) CAD - (3) CHF - (4) DKK - (5) EUR - (6) GBP
                                       //(7) JPY - (8) NOK - (9) SEK - (10) USD (11) BRL
             $table->float('valor', 13, 2)->default('0');

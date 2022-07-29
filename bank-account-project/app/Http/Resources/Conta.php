@@ -16,20 +16,19 @@ class Conta extends JsonResource
     {
         //return parent::toArray($request);
         return [
-            'id' => $this->id,
-            'dolar_australiano' => $this->dolar_australiano,
-            'dolar_canadense' => $this->dolar_canadense,
-            'franco_suico' => $this->franco_suico,
-            'coroa_dinamarquesa' => $this->coroa_dinamarquesa,
-            'euro' => $this->euro,
-            'libra_esterlina' => $this->libra_esterlina,
-            'iene' => $this->iene,
-            'coroa_norueguesa'=> $this->coroa_norueguesa,
-            'coroa_sueca' => $this->coroa_sueca,
-            'dolar_eua' => $this->dolar_eua,
-            'real' => $this->real,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+                'numero_conta' => $this->id,
+                'AUD' => $this->AUD,
+                'CAD' => $this->CAD,
+                'CHF' => $this->CHF,
+                'DDK' => $this->DDK,
+                'EUR' => $this->EUR,
+                'JPY' => $this->JPY,
+                'NOK' => $this->NOK,
+                'SEK' => $this->SEK,
+                'USD' => $this->USD,
+                'BRL' => $this->BRL,
+                //'data_criacao' => $this->created_at,
+                //'data_atualizacao' => $this->updated_at
           ];
     }
 }

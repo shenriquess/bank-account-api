@@ -40,21 +40,21 @@ class ContaController extends Controller
     {
         //
         $conta = new Conta;
-        $conta->dolar_australiano = $request->input('dolar_australiano');
-        $conta->dolar_canadense = $request->input('dolar_canadense');
-        $conta->franco_suico = $request->input('franco_suico');
-        $conta->coroa_dinamarquesa = $request->input('coroa_dinamarquesa');
-        $conta->euro = $request->input('euro');
-        $conta->libra_esterlina = $request->input('libra_esterlina');
-        $conta->iene = $request->input('iene');
-        $conta->coroa_norueguesa= $request->input('coroa_norueguesa');
-        $conta->coroa_sueca = $request->input('coroa_sueca');
-        $conta->dolar_eua = $request->input('dolar_eua');
-        $conta->real = $request->input('real');
+        $conta->AUD = $request->input('AUD');
+        $conta->CAD = $request->input('CAD');
+        $conta->CHF = $request->input('CHF');
+        $conta->DDK = $request->input('DDK');
+        $conta->EUR = $request->input('EUR');
+        $conta->GBP = $request->input('GBP');
+        $conta->JPY = $request->input('JPY');
+        $conta->NOK = $request->input('NOK');
+        $conta->SEK = $request->input('SEK');
+        $conta->USD = $request->input('USD');
+        $conta->BRL = $request->input('BRL');
 
-    if( $conta->save() ){
-      return new ContaResource( $conta );
-    }
+        if( $conta->save() ){
+        return new ContaResource( $conta );
+        }
     }
 
     /**
@@ -92,17 +92,18 @@ class ContaController extends Controller
     {
         //
         $conta = conta::findOrFail( $request->id );
-        $conta->dolar_australiano = $request->input('dolar_australiano');
-        $conta->dolar_canadense = $request->input('dolar_canadense');
-        $conta->franco_suico = $request->input('franco_suico');
-        $conta->coroa_dinamarquesa = $request->input('coroa_dinamarquesa');
-        $conta->euro = $request->input('euro');
-        $conta->libra_esterlina = $request->input('libra_esterlina');
-        $conta->iene = $request->input('iene');
-        $conta->coroa_norueguesa= $request->input('coroa_norueguesa');
-        $conta->coroa_sueca = $request->input('coroa_sueca');
-        $conta->dolar_eua = $request->input('dolar_eua');
-        $conta->real = $request->input('real');
+        $conta->AUD = $request->input('AUD');
+        $conta->CAD = $request->input('CAD');
+        $conta->CHF = $request->input('CHF');
+        $conta->DDK = $request->input('DDK');
+        $conta->EUR = $request->input('EUR');
+        $conta->GBP = $request->input('GBP');
+        $conta->JPY = $request->input('JPY');
+        $conta->NOK = $request->input('NOK');
+        $conta->SEK = $request->input('SEK');
+        $conta->USD = $request->input('USD');
+        $conta->BRL = $request->input('BRL');
+
     
         if( $conta->save() ){
           return new ContaResource( $conta );
