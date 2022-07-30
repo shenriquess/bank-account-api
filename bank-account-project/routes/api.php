@@ -35,8 +35,8 @@ Route::post('operacao', [OperacaoController::class, 'store']);
 // Lista todas as operações de uma conta
 Route::get('operacoes/{id_conta}', [OperacaoController::class, 'show']);
 
-//Route::post('deposito/{id_conta}', [OperacaoController::class, 'update']);
-
+//cotacao de uma moeda - API do Banco Central
 Route::get('cotacao/{moeda}', [OperacaoController::class, 'exibirCotacao']);
 
+//Saldo de todas as moedas ou de uma moeda específica
 Route::get('saldo/{id_conta}/{moeda?}', [OperacaoController::class, 'saldo']);

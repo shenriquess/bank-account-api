@@ -17,7 +17,13 @@ class ContaController extends Controller
     {
         //
         $contas = Conta::paginate(15);
-        return ContaResource::collection($contas);
+        if (is_null($contas['data'])){
+            return response()->json([
+                "message" => "Não há contas cadastradas."
+            ], 402); 
+        }else{
+            return ContaResource::collection($contas);
+        }
     }
 
     /**
@@ -66,9 +72,14 @@ class ContaController extends Controller
     public function show($id)
     {
         //
-        $conta = Conta::findOrFail( $id );
+        $conta = Conta::find( $id );
+        if(is_null($conta)){
+            return response()->json([
+                "message" => "A conta não existe."
+            ], 402);             
+        }
         return new ContaResource( $conta );
-        
+
     }
 
     /**
