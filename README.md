@@ -69,6 +69,10 @@
 4. GET http://localhost:8000/api/saldo/{id_conta}/{moeda?}  (Retorna o saldo de todas as moedas de uma conta ou de uma moeda específica)
 - Ex:http://localhost:8000/api/conta/1/10 (conta nº.1 moeda nº.10 - USD)
 
+##### Exemplo: Cadastro de uma operação de Depósito (Postan):
+!(https://uploaddeimagens.com.br/imagens/MTcdgGc)
+
 ##### Exemplo: Cadastro de uma operação de Saque (Postan):
+!(https://uploaddeimagens.com.br/imagens/Eu6Lwpc)
 
 
