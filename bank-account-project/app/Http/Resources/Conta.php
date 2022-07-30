@@ -16,7 +16,7 @@ class Conta extends JsonResource
     {
         //return parent::toArray($request);
         return [
-                'numero_conta' => $this->id,
+                'id_conta' => $this->id,
                 'AUD' => $this->AUD,
                 'CAD' => $this->CAD,
                 'CHF' => $this->CHF,
@@ -27,8 +27,8 @@ class Conta extends JsonResource
                 'SEK' => $this->SEK,
                 'USD' => $this->USD,
                 'BRL' => $this->BRL,
-                //'data_criacao' => $this->created_at,
-                //'data_atualizacao' => $this->updated_at
+                'data_criacao' => $this->created_at,
+                'data_atualizacao' => $this->updated_at
           ];
     }
 }

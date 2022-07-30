@@ -12,29 +12,16 @@ use DB;
 
 class OperacaoController extends Controller
 {
+    
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+     * Salva uma nova operação no banco de dados.
 
-    /**
-     * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
+     * id_conta -> Número da conta
+     * tipo -> (1) Depósito - (2) Saque
+     * moeda -> (1) AUD - (2) CAD - (3) CHF - (4) DDK - (5) EUR - (6) GBP
+     *          (7) JPY - (8) NOK - (9) SEK - (10) USD - (11) BRL
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -49,7 +36,7 @@ class OperacaoController extends Controller
 
         $conta = conta::findOrFail( $operacao->id_conta );
 
-        if($operacao->tipo == 1 && !is_null($conta)){
+        if ($operacao->tipo == 1 && !is_null($conta)){
 
             $status = $this->deposito($operacao, $conta);
 
@@ -57,26 +44,31 @@ class OperacaoController extends Controller
 
             $status = $this->saque($operacao, $conta);
 
-        } else{
+        } else {
             return response()->json([
                 "message" => "Operação inválida ou conta não encontrada."
               ], 402);
         }
         
-        
-        if( $conta->save() && $operacao->save() && $status){
-            return $this->show($conta->id);
+        if($status){ 
+            if ( $conta->save() && $operacao->save()){
+                return $this->show($conta->id);
+            }else{
+                return response()->json([
+                    "message" => "Operação falhou ou não há saldo disponível para saque."
+                ], 402); 
+            }
         }else{
             return response()->json([
-                "message" => "Operação falhou ou não há saldo disponível para saque."
-              ], 402); 
+                "message" => "Não há saldo disponível para saque."
+            ], 402); 
         }
     }
 
     /**
-     * Display the specified resource.
+     * Exibe todas as operações de uma determinada conta.
      *
-     * @param  int  $id
+     * @param  int  $id_conta
      * @return \Illuminate\Http\Response
      */
     public function show($id_conta)
@@ -109,14 +101,74 @@ class OperacaoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Exibe o saldo de todas as moedas de uma conta, ou da moeda especificada.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function saldo($id_conta, $moeda = 0)
     {
         //
+        $conta = Conta::find( $id_conta );
+        
+        if(is_null($conta)){
+            return response()->json([
+                "message" => "Conta inválida."
+              ], 402);
+        }
+
+        if (!is_null($conta) && $moeda == 0){
+            $conta = Conta::findOrFail( $id_conta );
+            return new ContaResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 1) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(AUD, 2) as AUD
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 2) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(CAD, 2) as CAD
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 3) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(CHF, 2) as CHF
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 4) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(DDK, 2) as DDK
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 5) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(EUR, 2) as EUR
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 6) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(GBP, 2) as GBP
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 7) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(JPY, 2) as JPY
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 8) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(NOK, 2) as NOK
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 9) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(SEK, 2) as SEK
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 10) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(USD, 2) as USD
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } elseif (!is_null($conta) && $moeda == 11) {
+            $conta = DB::select('SELECT id as id_conta, FORMAT(BRL, 2) as BRL
+                                   FROM contas');
+            return new OperacaoResource( $conta );
+        } else {
+            return response()->json([
+                "message" => "Moeda inválida."
+              ], 402);
+        }
     }
 
     /**

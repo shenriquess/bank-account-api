@@ -53,7 +53,7 @@ class ContaController extends Controller
         $conta->BRL = $request->input('BRL');
 
         if( $conta->save() ){
-        return new ContaResource( $conta );
+            return new ContaResource( $conta );
         }
     }
 
@@ -68,6 +68,7 @@ class ContaController extends Controller
         //
         $conta = Conta::findOrFail( $id );
         return new ContaResource( $conta );
+        
     }
 
     /**

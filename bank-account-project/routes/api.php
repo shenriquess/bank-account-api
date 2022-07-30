@@ -38,3 +38,5 @@ Route::get('operacoes/{id_conta}', [OperacaoController::class, 'show']);
 //Route::post('deposito/{id_conta}', [OperacaoController::class, 'update']);
 
 Route::get('cotacao/{moeda}', [OperacaoController::class, 'exibirCotacao']);
+
+Route::get('saldo/{id_conta}/{moeda?}', [OperacaoController::class, 'saldo']);
