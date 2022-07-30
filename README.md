@@ -37,12 +37,12 @@
 1. Crie um novo banco de dados para a aplicação.
 
 2. Após baixar o repositório, altere o nome do arquivo _.env.example_ para _.env_ e insira as credenciais do banco de dados criado.
-###### DB_CONNECTION=mysql
-###### DB_HOST=127.0.0.1
-###### DB_PORT=3306
-###### DB_DATABASE=_your-database-name_
-###### DB_USERNAME=_your-database-username_
-###### DB_PASSWORD=_your-database-password_ 
+    ###### DB_CONNECTION=mysql
+    ###### DB_HOST=127.0.0.1
+    ###### DB_PORT=3306
+    ###### DB_DATABASE=_your-database-name_
+    ###### DB_USERNAME=_your-database-username_
+    ###### DB_PASSWORD=_your-database-password_ 
 
 3. Acesse a pasta **bank-account-project** do projeto e execute o comando abaixo para executar a migração das tabelas da aplicação para o banco de dados:
 
@@ -62,10 +62,12 @@
 - valor: Valor da operação
 
 2. GET http://localhost:8000/api/conta/{id} (Retorna as informações de uma conta)
+- Ex:http://localhost:8000/api/conta/**1**
 
 3. POST http://localhost:8000/api/conta (Cadastra uma nova conta)
 
 4. GET http://localhost:8000/api/saldo/{id_conta}/{moeda?}  (Retorna o saldo de todas as moedas de uma conta ou de uma moeda específica)
+- Ex:http://localhost:8000/api/conta/**1**/**10**
 
 ##### Exemplo: Cadastro de uma operação de Saque:
 
