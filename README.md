@@ -62,12 +62,12 @@
 - valor: Valor da operação
 
 2. GET http://localhost:8000/api/conta/{id} (Retorna as informações de uma conta)
-- Ex:http://localhost:8000/api/conta/**1**
+- Ex:http://localhost:8000/api/conta/1
 
 3. POST http://localhost:8000/api/conta (Cadastra uma nova conta)
 
 4. GET http://localhost:8000/api/saldo/{id_conta}/{moeda?}  (Retorna o saldo de todas as moedas de uma conta ou de uma moeda específica)
-- Ex:http://localhost:8000/api/conta/**1**/**10**
+- Ex:http://localhost:8000/api/conta/1/10
 
 ##### Exemplo: Cadastro de uma operação de Saque:
 
