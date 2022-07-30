@@ -70,8 +70,8 @@
 - Ex:http://localhost:8000/api/conta/1/10 (conta nº.1 moeda nº.10 - USD)
 
 ##### Exemplo: Cadastro de uma operação de Depósito (Postan):
-![Saque](../../assets/images/Deposito.png)
+![Saque](/assets/images/Deposito.png)
 
 ##### Exemplo: Cadastro de uma operação de Saque (Postan):
-![Depósito](../../assets/images/Saque.png)
+![Depósito](/assets/images/Saque.png)
 
