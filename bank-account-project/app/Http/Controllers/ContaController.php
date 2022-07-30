@@ -17,13 +17,8 @@ class ContaController extends Controller
     {
         //
         $contas = Conta::paginate(15);
-        if (is_null($contas['data'])){
-            return response()->json([
-                "message" => "Não há contas cadastradas."
-            ], 402); 
-        }else{
-            return ContaResource::collection($contas);
-        }
+        return ContaResource::collection($contas);
+       
     }
 
     /**
